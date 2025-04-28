@@ -11,7 +11,7 @@
 {%- with obj = module, module_name = module.name.split(".")[-1] -%}
 {%- if not root or config.show_root_heading %}
 
-{% filter heading(heading_level) -%}
+{% filter heading(heading_level, module.path | replace(".", "-") | replace("_", "-") | lower) -%}
 {%- if config.separate_signature -%}
 {{ module_name }}
 {%- else -%}

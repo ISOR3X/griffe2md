@@ -306,8 +306,19 @@ def do_order_members(
     return sorted(members, key=order_map[order])
 
 
-def do_heading(content: str, heading_level: int) -> str:
-    """Render a Markdown heading."""
+def do_heading(content: str, heading_level: int, id: str = None) -> str:
+    """Render a Markdown heading.
+
+    Parameters:
+        content: The heading content.
+        heading_level: The heading level (1-6).
+        id: Optional ID to add to the heading.
+
+    Returns:
+        A markdown heading.
+    """
+    if id:
+        return f"\n{'#' * heading_level} {content} {{#{id}}}\n\n"
     return f"\n{'#' * heading_level} {content}\n\n"
 
 
