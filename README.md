@@ -1,3 +1,5 @@
+Fork to format the output in a way that VitePress supports.
+
 # griffe2md
 
 [![ci](https://github.com/mkdocstrings/griffe2md/workflows/ci/badge.svg)](https://github.com/mkdocstrings/griffe2md/actions?query=workflow%3Aci)
