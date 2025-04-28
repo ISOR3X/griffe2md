@@ -38,9 +38,15 @@ def get_parser() -> argparse.ArgumentParser:
     """
     parser = argparse.ArgumentParser(prog="griffe2md")
     parser.add_argument("package", help="The package to output Markdown docs for.")
-    parser.add_argument("-o", "--output", default=None, help="File to write to. Default: stdout.")
-    parser.add_argument("-V", "--version", action="version", version=f"%(prog)s {debug.get_version()}")
-    parser.add_argument("--debug-info", action=_DebugInfo, help="Print debug information.")
+    parser.add_argument(
+        "-o", "--output", default=None, help="File to write to. Default: stdout."
+    )
+    parser.add_argument(
+        "-V", "--version", action="version", version=f"%(prog)s {debug.get_version()}"
+    )
+    parser.add_argument(
+        "--debug-info", action=_DebugInfo, help="Print debug information."
+    )
     return parser
 
 

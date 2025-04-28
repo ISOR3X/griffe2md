@@ -33,7 +33,6 @@ if TYPE_CHECKING:
     from jinja2.runtime import Context
     from markupsafe import Markup
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -53,10 +52,10 @@ default_config: dict = {
     "show_root_full_path": True,
     "show_root_members_full_path": True,
     "show_object_full_path": True,
-    "show_category_heading": False,
+    "show_category_heading": True,
     "show_if_no_docstring": True,
     "show_signature": True,
-    "show_signature_annotations": False,
+    "show_signature_annotations": True,
     "signature_crossrefs": False,
     "separate_signature": True,
     "line_length": 80,
@@ -73,7 +72,7 @@ default_config: dict = {
     "show_docstring_yields": True,
     "show_bases": True,
     "show_submodules": True,
-    "group_by_category": False,
+    "group_by_category": True,
     "heading_level": 1,
     "members_order": Order.alphabetical.value,
     "docstring_section_style": "list",
@@ -84,7 +83,7 @@ default_config: dict = {
     "preload_modules": None,
     "load_external_modules": False,
     "allow_inspection": True,
-    "summary": True,
+    "summary": False,
 }
 
 
@@ -144,7 +143,9 @@ _stash_key_alphabet = string.ascii_letters + string.digits
 
 
 def _gen_key(length: int) -> str:
-    return "_" + "".join(random.choice(_stash_key_alphabet) for _ in range(max(1, length - 1)))  # noqa: S311
+    return "_" + "".join(
+        random.choice(_stash_key_alphabet) for _ in range(max(1, length - 1))
+    )  # noqa: S311
 
 
 def _gen_stash_key(stash: dict[str, str], length: int) -> str:
@@ -264,10 +265,14 @@ def do_format_attribute(
     try:
         signature = str(attribute_path).strip()
         if annotations and attribute.annotation:
-            annotation = template.render(context.parent, expression=attribute.annotation, signature=True)
+            annotation = template.render(
+                context.parent, expression=attribute.annotation, signature=True
+            )
             signature += f": {annotation}"
         if attribute.value:
-            value = template.render(context.parent, expression=attribute.value, signature=True)
+            value = template.render(
+                context.parent, expression=attribute.value, signature=True
+            )
             signature += f" = {value}"
     finally:
         env.filters["stash_crossref"] = old_stash_ref_filter
@@ -395,7 +400,9 @@ def do_filter_objects(
         # Include specific inherited members.
         inherited_members_specified = True
         objects = [
-            obj for obj in objects_dictionary.values() if not obj.inherited or obj.name in set(inherited_members)
+            obj
+            for obj in objects_dictionary.values()
+            if not obj.inherited or obj.name in set(inherited_members)
         ]
 
     if members_list is True:
@@ -409,18 +416,28 @@ def do_filter_objects(
     if members_list is not None:
         # Return selected members (keeping any pre-selected inherited members).
         return [
-            obj for obj in objects if obj.name in set(members_list) or (inherited_members_specified and obj.inherited)
+            obj
+            for obj in objects
+            if obj.name in set(members_list)
+            or (inherited_members_specified and obj.inherited)
         ]
 
     # Use filters and docstrings.
     if filters:
         objects = [
-            obj for obj in objects if _keep_object(obj.name, filters) or (inherited_members_specified and obj.inherited)
+            obj
+            for obj in objects
+            if _keep_object(obj.name, filters)
+            or (inherited_members_specified and obj.inherited)
         ]
     if keep_no_docstrings:
         return objects
 
-    return [obj for obj in objects if obj.has_docstrings or (inherited_members_specified and obj.inherited)]
+    return [
+        obj
+        for obj in objects
+        if obj.has_docstrings or (inherited_members_specified and obj.inherited)
+    ]
 
 
 @lru_cache(maxsize=1)
@@ -478,17 +495,23 @@ def do_as_attributes_section(
         [
             DocstringAttribute(
                 name=attribute.name,
-                description=attribute.docstring.value.split("\n", 1)[0] if attribute.docstring else "",
+                description=attribute.docstring.value.split("\n", 1)[0]
+                if attribute.docstring
+                else "",
                 annotation=attribute.annotation,
                 value=attribute.value,
             )
             for attribute in attributes
-            if not check_public or attribute.is_public or from_private_package(attribute)
+            if not check_public
+            or attribute.is_public
+            or from_private_package(attribute)
         ],
     )
 
 
-def do_as_functions_section(functions: Sequence[Function], *, check_public: bool = True) -> DocstringSectionFunctions:
+def do_as_functions_section(
+    functions: Sequence[Function], *, check_public: bool = True
+) -> DocstringSectionFunctions:
     """Build a functions section from a list of functions.
 
     Parameters:
@@ -502,7 +525,9 @@ def do_as_functions_section(functions: Sequence[Function], *, check_public: bool
         [
             DocstringFunction(
                 name=function.name,
-                description=function.docstring.value.split("\n", 1)[0] if function.docstring else "",
+                description=function.docstring.value.split("\n", 1)[0]
+                if function.docstring
+                else "",
             )
             for function in functions
             if not check_public or function.is_public or from_private_package(function)
@@ -510,7 +535,9 @@ def do_as_functions_section(functions: Sequence[Function], *, check_public: bool
     )
 
 
-def do_as_classes_section(classes: Sequence[Class], *, check_public: bool = True) -> DocstringSectionClasses:
+def do_as_classes_section(
+    classes: Sequence[Class], *, check_public: bool = True
+) -> DocstringSectionClasses:
     """Build a classes section from a list of classes.
 
     Parameters:
@@ -524,7 +551,9 @@ def do_as_classes_section(classes: Sequence[Class], *, check_public: bool = True
         [
             DocstringClass(
                 name=cls.name,
-                description=cls.docstring.value.split("\n", 1)[0] if cls.docstring else "",
+                description=cls.docstring.value.split("\n", 1)[0]
+                if cls.docstring
+                else "",
             )
             for cls in classes
             if not check_public or cls.is_public or from_private_package(cls)
@@ -532,7 +561,9 @@ def do_as_classes_section(classes: Sequence[Class], *, check_public: bool = True
     )
 
 
-def do_as_modules_section(modules: Sequence[Module], *, check_public: bool = True) -> DocstringSectionModules:
+def do_as_modules_section(
+    modules: Sequence[Module], *, check_public: bool = True
+) -> DocstringSectionModules:
     """Build a modules section from a list of modules.
 
     Parameters:
@@ -546,7 +577,9 @@ def do_as_modules_section(modules: Sequence[Module], *, check_public: bool = Tru
         [
             DocstringModule(
                 name=module.name,
-                description=module.docstring.value.split("\n", 1)[0] if module.docstring else "",
+                description=module.docstring.value.split("\n", 1)[0]
+                if module.docstring
+                else "",
             )
             for module in modules
             if not check_public or module.is_public or from_private_package(module)

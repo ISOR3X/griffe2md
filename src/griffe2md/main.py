@@ -39,7 +39,10 @@ def prepare_context(obj: Object, config: dict | None = None) -> dict:
     """
     config = dict(rendering.default_config, **(config or {}))
     if config["filters"]:
-        config["filters"] = [(re.compile(filtr.lstrip("!")), filtr.startswith("!")) for filtr in config["filters"]]
+        config["filters"] = [
+            (re.compile(filtr.lstrip("!")), filtr.startswith("!"))
+            for filtr in config["filters"]
+        ]
 
     heading_level = config["heading_level"]
     try:
@@ -150,7 +153,9 @@ def render_package_docs(package: str, config: dict | None = None) -> str:
     return render_object_docs(module, config)  # type: ignore[arg-type]
 
 
-def write_package_docs(package: str, config: dict | None = None, output: IO | str | None = None) -> None:
+def write_package_docs(
+    package: str, config: dict | None = None, output: IO | str | None = None
+) -> None:
     """Write docs for a given package to a file or stdout.
 
     Parameters:
