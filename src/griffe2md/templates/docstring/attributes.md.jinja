@@ -5,13 +5,13 @@
 Name | Type | Description
 ---- | ---- | -----------
 {%- for attribute in section.value %}
-[`{{ attribute.name }}`](#{{ obj.path }}.{{ attribute.name }}) | {% if attribute.annotation -%}{%- with expression = attribute.annotation -%}<code>{%- include "expression.md.jinja" with context -%}</code>{%- endwith -%}{%- endif %} | {{ attribute.description }}
+[`{{ attribute.name.split(".")[-1] }}`](#{{ obj.path | replace(".", "-") | replace("_", "-") | lower }}-{{ attribute.name | replace("_", "-") | lower }}) | {% if attribute.annotation -%}{%- with expression = attribute.annotation -%}<code>{%- include "expression.md.jinja" with context -%}</code>{%- endwith -%}{%- endif %} | {{ attribute.description }}
 {%- endfor -%}
 
 {%- elif config.docstring_section_style == "list" %}
 
 **{{ section.title or "Attributes:" }}**
 {% for attribute in section.value %}
-- [**{{ attribute.name }}**](#{{ obj.path }}.{{ attribute.name }}){%- if attribute.annotation -%}{%- with expression = attribute.annotation %} (<code>{%- include "expression.md.jinja" with context -%}</code>){%- endwith -%}{%- endif %} – {{ attribute.description }}
+- [**{{ attribute.name.split(".")[-1] }}**](#{{ obj.path | replace(".", "-") | replace("_", "-") | lower }}-{{ attribute.name | replace("_", "-") | lower }}){%- if attribute.annotation -%}{%- with expression = attribute.annotation %} (<code>{%- include "expression.md.jinja" with context -%}</code>){%- endwith -%}{%- endif %}{%- if attribute.description %} - {{ attribute.description }}{%- endif %}
 {%- endfor -%}
 {%- endif -%}

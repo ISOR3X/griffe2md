@@ -107,7 +107,8 @@ def prepare_env(env: Environment | None = None) -> Environment:
     env.filters["format_attribute"] = rendering.do_format_attribute
     env.filters["order_members"] = rendering.do_order_members
     env.filters["split_path"] = rendering.do_split_path
-    env.filters["stash_crossref"] = lambda ref, length: ref
+    # Use a more robust stash_crossref filter that doesn't cause encoding issues
+    env.filters["stash_crossref"] = lambda ref, length: ref.replace(".", "")
     env.filters["from_private_package"] = rendering.from_private_package
 
     return env
@@ -126,6 +127,8 @@ def render_object_docs(obj: Object, config: dict | None = None) -> str:
     env = prepare_env()
     context = prepare_context(obj, config)
     rendered = env.get_template(f"{obj.kind.value}.md.jinja").render(**context)
+    # Remove � characters from the output
+    rendered = rendered.replace("�", "")
     return mdformat.text(rendered)
 
 

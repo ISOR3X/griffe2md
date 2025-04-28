@@ -12,6 +12,6 @@ Name | Type | Description
 
 **{{ section.title or "Other Parameters:" }}**
 {% for parameter in section.value %}
-- **{{ parameter.name }}**{%- if parameter.annotation -%}{%- with expression = parameter.annotation %} (<code>{%- include "expression.md.jinja" with context -%}</code>){%- endwith -%}{%- endif %} – {{ parameter.description }}
+- **{{ parameter.name }}**{%- if parameter.annotation -%}{%- with expression = parameter.annotation %} (<code>{%- include "expression.md.jinja" with context -%}</code>){%- endwith -%}{%- endif %} - {{ parameter.description }}
 {%- endfor -%}
 {%- endif -%}

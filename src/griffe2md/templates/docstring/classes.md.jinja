@@ -5,13 +5,13 @@
 Name | Description
 ---- | -----------
 {%- for class in section.value %}
-[`{{ class.name }}`](#{{ obj.path }}.{{ class.name }}) | {{ class.description }}
+[`{{ class.name.split(".")[-1] }}`](#{{ obj.path | replace(".", "-") | replace("_", "-") | lower }}-{{ class.name | replace("_", "-") | lower }}) | {{ class.description }}
 {%- endfor -%}
 
 {%- elif config.docstring_section_style == "list" %}
 
 **{{ section.title or "Classes:" }}**
 {% for class in section.value %}
-- [**{{ class.name }}**](#{{ obj.path }}.{{ class.name }}) – {{ class.description }}
+- [**{{ class.name.split(".")[-1] }}**](#{{ obj.path | replace(".", "-") | replace("_", "-") | lower }}-{{ class.name | replace("_", "-") | lower }}){%- if class.description %} - {{ class.description }}{%- endif %}
 {%- endfor -%}
 {%- endif -%}

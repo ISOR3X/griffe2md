@@ -13,6 +13,6 @@
 
 **{{ section.title or "Returns:" }}**
 {% for returns in section.value %}
-- {% if returns.name -%}**{{ returns.name }}**{%- endif -%}{%- if returns.annotation -%}{%- with expression = returns.annotation -%}{%- if returns.name %} ({%- endif -%}<code>{%- include "expression.md.jinja" with context -%}</code>{%- if returns.name -%}){%- endif -%}{%- endwith -%}{%- endif %} – {{ returns.description }}
+- {% if returns.name -%}**{{ returns.name }}**{%- endif -%}{%- if returns.annotation -%}{%- with expression = returns.annotation -%}{%- if returns.name %} ({%- endif -%}<code>{%- include "expression.md.jinja" with context -%}</code>{%- if returns.name -%}){%- endif -%}{%- endwith -%}{%- endif %} - {{ returns.description }}
 {%- endfor -%}
 {%- endif -%}

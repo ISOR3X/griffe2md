@@ -5,13 +5,13 @@
 Name | Description
 ---- | -----------
 {%- for module in section.value %}
-[`{{ module.name }}`](#{{ obj.path }}.{{ module.name }}) | {{ module.description }}
+[`{{ module.name.split(".")[-1] }}`](#{{ obj.path | replace(".", "-") | replace("_", "-") | lower }}-{{ module.name | replace("_", "-") | lower }}) | {{ module.description }}
 {%- endfor -%}
 
 {%- elif config.docstring_section_style == "list" %}
 
 **{{ section.title or "Modules:" }}**
 {% for module in section.value %}
-- [**{{ module.name }}**](#{{ obj.path }}.{{ module.name }}) – {{ module.description }}
+- [**{{ module.name.split(".")[-1] }}**](#{{ obj.path | replace(".", "-") | replace("_", "-") | lower }}-{{ module.name | replace("_", "-") | lower }}){%- if module.description %} - {{ module.description }}{%- endif %}
 {%- endfor -%}
 {%- endif -%}

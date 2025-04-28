@@ -13,6 +13,6 @@
 
 **{{ section.title or "Receives:" }}**
 {% for receives in section.value %}
-- {% if receives.name -%}**{{ receives.name }}**{%- endif -%}{%- if receives.annotation -%}{%- with expression = receives.annotation -%}{%- if receives.name %} ({%- endif -%}<code>{%- include "expression.md.jinja" with context -%}</code>{%- if receives.name -%}){% endif -%}{%- endwith -%}{%- endif -%} – {{ receives.description }}
+- {% if receives.name -%}**{{ receives.name }}**{%- endif -%}{%- if receives.annotation -%}{%- with expression = receives.annotation -%}{%- if receives.name %} ({%- endif -%}<code>{%- include "expression.md.jinja" with context -%}</code>{%- if receives.name -%}){% endif -%}{%- endwith -%}{%- endif -%} - {{ receives.description }}
 {%- endfor -%}
 {%- endif -%}

@@ -5,13 +5,13 @@
 Name | Description
 ---- | -----------
 {%- for function in section.value %}
-[`{{ function.name }}`](#{{ obj.path }}.{{ function.name }}) | {{ function.description }}
+[`{{ function.name.split(".")[-1] }}`](#{{ obj.path | replace(".", "-") | replace("_", "-") | lower }}-{{ function.name | replace("_", "-") | lower }}) | {{ function.description }}
 {%- endfor -%}
 
 {%- elif config.docstring_section_style == "list" %}
 
 **{{ section.title or "Functions:" }}**
 {% for function in section.value %}
-- [**{{ function.name }}**](#{{ obj.path }}.{{ function.name }}) – {{ function.description }}
+- [**{{ function.name.split(".")[-1] }}**](#{{ obj.path | replace(".", "-") | replace("_", "-") | lower }}-{{ function.name | replace("_", "-") | lower }}){%- if function.description %} - {{ function.description }}{%- endif %}
 {%- endfor -%}
 {%- endif -%}

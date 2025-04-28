@@ -74,7 +74,7 @@ default_config: dict = {
     "show_bases": True,
     "show_submodules": True,
     "group_by_category": False,
-    "heading_level": 2,
+    "heading_level": 1,
     "members_order": Order.alphabetical.value,
     "docstring_section_style": "list",
     "members": None,

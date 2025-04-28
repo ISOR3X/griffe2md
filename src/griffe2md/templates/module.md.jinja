@@ -8,7 +8,7 @@
 {%- set show_full_path = config.show_object_full_path -%}
 {%- endif -%}
 
-{%- with obj = module, module_name = module.path if show_full_path else module.name -%}
+{%- with obj = module, module_name = module.name.split(".")[-1] -%}
 {%- if not root or config.show_root_heading %}
 
 {% filter heading(heading_level) -%}

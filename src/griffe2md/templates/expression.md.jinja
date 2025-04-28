@@ -13,7 +13,7 @@
           {%- if config.html_links -%}
             <a href="{{ path }}">{{ title }}</a>
           {%- else -%}
-            [{{ title }}](#{{ path }})
+            [{{ title }}](#{{ path | replace(".", "-") | replace("_", "-") | lower }})
           {%- endif -%}
         {%- endfilter -%}
       {%- else -%}
