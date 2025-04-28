@@ -24,8 +24,8 @@ def test_generate_multiprocessing_docs() -> None:
     content = output_file.read_text()
     assert content
 
-    # Verify the heading level is H1
-    assert content.startswith("# multiprocessing")
+    # Verify the heading level is H1 with MOD abbreviation
+    assert content.startswith("# <code>MOD</code> multiprocessing")
 
     # Verify links use hyphens instead of dots
     assert "#multiprocessing-" in content

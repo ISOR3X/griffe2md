@@ -13,13 +13,11 @@
 
 {% filter heading(heading_level, attribute.path | replace(".", "-") | replace("_", "-") | lower) -%}
 {%- if config.separate_signature -%}
-{{ attribute_name }}
+<code>ATTR</code> {{ attribute_name }}
 {%- else -%}
-<code>
-{{ attribute_name }}
-{%- if attribute.annotation -%}: {{ attribute.annotation }}{%- endif -%}
-{%- if attribute.value %} = {{ attribute.value }}{%- endif -%}
-</code>
+<code>ATTR</code> {{ attribute_name }}
+{%- if attribute.annotation -%}: <code>{{ attribute.annotation }}</code>{%- endif -%}
+{%- if attribute.value %} = <code>{{ attribute.value }}</code>{%- endif -%}
 {%- endif -%}
 {%- endfilter -%}
 

@@ -13,14 +13,14 @@
 
 {% filter heading(heading_level, class.path | replace(".", "-") | replace("_", "-") | lower) -%}
 {%- if config.separate_signature -%}
-{{ class_name }}
+<code>CLS</code> {{ class_name }}
 {%- elif config.merge_init_into_class and "__init__" in class.members -%}
 {%- with function = class.members["__init__"] -%}
-{{ class_name }}
+<code>CLS</code> {{ class_name }}
 {%- include "signature.md.jinja" with context -%}
 {%- endwith -%}
 {%- else -%}
-`{{ class_name }}`
+<code>CLS</code> `{{ class_name }}`
 {%- endif -%}
 {%- endfilter -%}
 

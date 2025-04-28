@@ -13,9 +13,9 @@
 
 {% filter heading(heading_level, module.path | replace(".", "-") | replace("_", "-") | lower) -%}
 {%- if config.separate_signature -%}
-{{ module_name }}
+<code>MOD</code> {{ module_name }}
 {%- else -%}
-`{{ module_name }}`
+<code>MOD</code> `{{ module_name }}`
 {%- endif -%}
 {%- endfilter -%}
 
